@@ -9,30 +9,46 @@ Created on Sun May 5 09:57:22 2013
 """
 
 """ Basic modules """
+import sys
 import numpy as np
-
 
 """ Printable Table used for several purposes, such as showing progress during training 
     HOW TO USE SNIPPET:
-        header = ['Epoch','Progress','loss_labels']
-        formatters = {'Epoch':'{:03d}', 'Progress':'%$', 'loss_labels':'{:3f}'}
-        progress_table = Printable_Table(header, formatters)
+        # Import basic modules
         import sys, time
-        ### Print header
-        sys.stdout.write(progress_table.header)
-        sys.stdout.flush()
+        import numpy as np
+        
+        #Import DynamicTable
+        from DynamicTable import DynamicTable
+        
+        #Init table
+        header = ['Epoch','Progress','loss_labels']
+        formatters = {'Epoch':'{:03d}', 'Progress':'%$', 'loss_labels':'{:.3f}'}
+        progress_table = DynamicTable(header, formatters)
+        
+        #Print header
+        progress_table.print_header()
+        
+        #Loop thru iters
         for i in range(5):
             time.sleep(1)
             for b in range(100):
+                #Perform some action here
+                #
+                #    ...
+                #
+                #
                 time.sleep(.01)
+        
+                #Get updated values to be set into table
                 vals = {'Epoch': i, 'Progress': b/99, 'loss_labels': 100*np.random.randn()}
-                line = progress_table.update_line(vals, append = b == 99)
-                if b != 99:
-                    sys.stdout.write(line + '\r')
-                else:
-                    sys.stdout.write(line + '\n')
-        ### Print bottom of the table
-        sys.stdout.write(progress_table.bottom_border + '\n')
+        
+                #Update and print line
+                progress_table.update_line(vals, append = b == 99, print = True)
+        
+        #As we exit the loop, print the bottom of the table
+        progress_table.print_bottom()
+
 """
 class DynamicTable(object):
     def __init__(self, header, formatters=None, column_width='auto', column_ratio=1.):
@@ -88,7 +104,7 @@ class DynamicTable(object):
     def __calculate_column_width__(self, title, formatter, width, ratio):
 
         if width != 'auto':
-            return width
+            return int(width)
 
         """ Calculate title length """
         width = len(f' {title} ')
@@ -100,7 +116,7 @@ class DynamicTable(object):
             width = np.maximum(width, val_length)
 
         """ Return width """
-        return width
+        return int(width)
 
     """ compile header """
     def compile_header(self):
@@ -153,7 +169,7 @@ class DynamicTable(object):
         return cols
 
     """ update_line method """
-    def update_line(self, values, append=False):
+    def update_line(self, values, append=False, print=False):
         """."""
 
         """ Compile line """
@@ -164,15 +180,32 @@ class DynamicTable(object):
 
         if append:
             self.lines.append(cols)
+            self.printed_lines += 1
+            cchar = '\n' if self.printed_lines > 1 else '\r'
+
         else:
             self.lines[-1] = cols
+            cchar = '\r'
 
-        return cols
+        """ Check if we need to print """
+        if not print:
+            return cols
+        else:
+            sys.stdout.write(cols + cchar)
+
+    """ Print header """
+    def print_header(self):
+        sys.stdout.write(self.header)
+        sys.stdout.flush()
+
+    """ Print bottom """
+    def print_bottom(self):
+        sys.stdout.write(self.bottom_border)
 
     """ print method """
     def __str__(self):
         out = self.header
         for line in self.lines:
             out += line + '\n'
-        out += self.bottom_border + '\n'
+        out += self.bottom_border
         return out

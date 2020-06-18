@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='DynamicTable',
-    version='0.0.2',
+    version='0.0.4',
     packages=['DynamicTable'],
     url='http://github.com/manuelblancovalentin/DynamicTable',
     license='GPL',
