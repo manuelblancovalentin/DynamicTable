@@ -1,0 +1,8 @@
+README.md
+setup.py
+DynamicTable/Table.py
+DynamicTable/__init__.py
+DynamicTable.egg-info/PKG-INFO
+DynamicTable.egg-info/SOURCES.txt
+DynamicTable.egg-info/dependency_links.txt
+DynamicTable.egg-info/top_level.txt
