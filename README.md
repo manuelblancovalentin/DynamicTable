@@ -3,10 +3,10 @@
 Install using pip:
 
 ```bash
-pip install DynamicTable==0.0.1
+pip install DynamicTable
 ```
 
 Extra documentation:
 
-https://pypi.org/project/DynamicTable/0.0.1/
+https://pypi.org/project/DynamicTable/
  
