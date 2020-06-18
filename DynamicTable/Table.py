@@ -96,7 +96,7 @@ class DynamicTable(object):
         """ Now format example """
         if '%$' not in title:
             val_length = len(formatter.format(1))
-            val_length = (ratio + 1) + val_length*ratio
+            val_length = (ratio + 2) + val_length*ratio
             width = np.maximum(width, val_length)
 
         """ Return width """
