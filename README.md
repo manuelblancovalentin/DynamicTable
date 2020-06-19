@@ -15,7 +15,7 @@ Even though DynamicTable is great for displaying static data, it might be more u
 
 Take a look at an example (code provided below).  
 
-![Example Result](./imgs/demo.gif)
+![Example Result](./imgs/demo.gif | width=100)
 
 
 ## How to install?
